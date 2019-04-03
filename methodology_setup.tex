@@ -1,0 +1,15 @@
+\subsection{Power Measurement and Acquisition Setup}
+\CC{Jayant writes this. You can start with the text below which is what Aakarsh wrote and modify it according to the setup you used. Also include a good picture.}
+\begin{figure}[t]
+  \centering
+%  \includegraphics[width=0.9\columnwidth, height=6cm]{exp_setup.png}
+  \caption{Experimental Framework}\label{expsetup}
+\end{figure}
+Fig.~\ref{expsetup} describes our experimental framework to measure the power and performance characteristics of various constituent obfuscation techniques along with the data acquisition system. We utilize the Raspberry Pi which is a popular platform for low-power and low-cost computational tasks with widespread applications as our resource constraint device. With it's support for input-output peripherals, network connectivity and programmability, it is exemplary for IoT applications~\cite{maksimovic2014raspberry}. In our setup, we utilize the Raspberry Pi 2 Model B (RPi) running a 900MHz quad-core ARM Cortex-A7 CPU with 1GB RAM connected to a monitor, keyboard and mouse enabled with Internet connectivity via Ethernet. 
+
+\CC{Jayant and Aakarsh: rewrite this to fit our current system.}
+We have built a custom setup to measure the power consumption from the RPi2 based on~\cite{6976079, kaup2014powerpi} that is also shown in Fig.~\ref{expsetup}. The RPi2 is powered via a micro-USB from a stable 5V power supply. A shunt resistance of 0.1$\Omega$ is connected in series between the power supply and the RPi2 in order to measure the current drawn by the device. The voltage drop across the shunt resistance is measured by connecting the ends of the resistor to the analog input pins of the Arduino Uno, that have an inbuilt analog-to-digital (A/D) converter to obtain the digital voltage values. The current drawn $I$ = $\frac{V1 - V2}{R}$ (Fig.~\ref{expsetup}), from which the power consumed by the RPi $P$ = $V2 \times I$.
+
+The Arduino Software IDE running on a laptop is utilized to setup the data and format to be acquired from the Arduino UNO. However, actual data acquisition is performed by the Processing\footnote{https://processing.org/} software running on the laptop that communicates serially with the Arduino. The synchronization required to start and stop power measurement of the chosen obfuscation code is controlled via an Interrupt Service Routine in the Arduino, that is triggered by an interrupt signal from the GPIO pin of the RPi. Processing writes the data acquired to files stored on the laptop.
+
+The obfuscated target outputs generated, as in ~\ref{subsec:pdoc} are executed and power samples acquired on the laptop. The start and stop of the execution is controlled by turning ON the GPIO pin of the Raspberry Pi 2 that triggers an Interrupt to the Arduino to start data acquisition and turning OFF the GPIO pin stops acquisition.   

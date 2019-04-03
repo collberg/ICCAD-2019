@@ -1,0 +1,52 @@
+\subsection{Obfuscating Transformations}
+\CC{Aakarsh and Jayant: Here you need to describe the transformations that we ran over the benchmarks. Below is the text Aakarsh wrote. I think this needs to be completely rewritten, but I'm not sure exactly how... Describing each Tigress option in detail --- is it really necessary?}
+
+The obfuscation techniques along with the corresponding options as mentioned in ~\ref{sec:po} are utilized to setup the experimental software. We automate the process of running all possible obfuscation combinations by writing Bash scripts and corresponding Makefiles for creating the obfuscated code through Tigress. The procedure for conducting the above procedure is detailed below.
+
+Based on ~\ref{sec:po}, we have 96 options for \emph{Virtualization}, 13 options for \emph{Merge}, 2 options for \emph{Split}, 4 options for \emph{Add Opaque}, 6 options for \emph{Flatten} and 1 option each for \emph{Encode Arithmetic} and \emph{Encode Literal}. The process of generating these obfuscated codes is automated by writing Makefiles for each obfuscation technique. A key argument for Tigress is the specification of the function to be obfuscated. We select the function to be chosen for obfuscation based on the profiling result of the benchmark program. 
+Obfuscation is a popular means of preventing reverse engineering of software. In this section we briefly discuss the taxanomy of obfuscation techniques that are utilized in this paper, mainly based on ~\cite{collberg1997taxonomy}. The obfuscation techniques are performed by utilizing the auto obfuscator, Tigress that provides a wide array of transformation options for each technique as well.
+
+\subsubsection{Virtualization}
+Virtualization involves transforming a function into an interpretor, whose bytecode language is specialized for the particular function specified. Tigress offers a variety of options for generating different virtualized transformations of the code. The following are the options utilized for virtualzation:
+\begin{enumerate}
+\item \textit{Dispatch Methods:} This specifies the interpreter's dipatch method. The arguments specified in Tigress \textit{--VirtualizeDispatch=[binary, call, direct, ifnest, indirect, interpolation, linear and switch]}.
+\item \textit{Superoperators:} This specifes the desired number of superoperators. The arguments specified in Tigress \textit{--VirtualizeSuperOpsRatio=[2.0 and 0.0]}.
+\item \textit{Max Merge Length:} This specifies the longest sequence of instructions that should be merged into one. The argument specification in Tigress is \textit{--VirtualizeMaxMergeLength=[5 and 0]}.
+\item \textit{Performance:} The performance of virtualization can be tweaked based on the following arguments in Tigress \textit{--VirtualizePerformance=[AddressSizeShort,CacheTop and PointerStack]}.
+\item \textit{Operands:} This specifies the type of operands that is allowed by the Instruction Set Architecture generated. Options for Tigress include \textit{--VirtualizeOperands=[stack, registers and stack,registers]}.
+\end{enumerate}
+
+\subsubsection{AddOpaque}
+Control flow splitting by adding opaque predicated involves breaking up code blocks by inserting opaque predicated in-between. In Tigress, this transformation requires the issue of an initialization opaque expression that sets up the data structures with the precise invariants. The following are the options utilized for AddOpaque:
+\begin{itemize}
+\item \textit{Opaque Kinds:} This specifes the types of opaque predicated to be added, that include either buggy statements or random bytes. Tigress specification is \textit{--AddOpaqueKinds=[bug and junk]}
+\item \textit{Opaque Count:} This specifes the number of opaque predicated to be added. Tigress specification is \textit{--AddOpaqueCount=[10 and 1]}
+\end{itemize}
+
+\subsubsection{Encode Arithmatic}
+Encode arithmatic replaces integer airthmatic expression with more complex expression. Tigress currently supports one option for this transformation. 
+
+\subsubsection{Encode Literal}
+This technique obfuscates string and integer literals with less obvious expression. A single option of encoding integer and string is utilized.
+
+\subsubsection{Flatten}
+This transformation removes structured flow of the code via control flow flattening technique. The following are the options utilized:
+\begin{itemize}
+\item \textit{Dispatch Method:} This specifes the dipatch method of the flattened blocks of code. The options utilized in Tigress are \textit{--FlattenDispatch=[switch, goto and indirect]}.
+\item \textit{Split Basic Blocks:} This splits basic code blocks that involve sequence of assignment and call statements without any intervening branches into respective individual blocks. Tigress options include \textit{--FlattenSplitBasicBlocks=[true and false]}.
+\end{itemize}
+
+\subsubsection{Merge}
+This transformation technique merges multiple functions together into one. The following options are supported in Tigress:
+\begin{itemize}
+\item \textit{Merge Flatten:} Merge supports flattening before the merge. The options provided are \textit{--MergeFlatten=[true and false]}. Setting merge flatten to true expands further Tigress options as follows: 
+\begin{itemize}
+\item \textit{Dispatch Methods:} This sets the dispatch methods for flattened merging and Tigress options are \textit{--MergeFlattenDispatch=[goto,indirect and switch]}.
+\item \textit{Split Basic Blocks:} This splits the basic blocks in the functions before merging with options inlcuding \textit{--MergeSplitBasicBlocks=[true and false]}.
+\item \textit{Randomize Basic Blocks:} The sequence of basic blocks can be randomized with this option and Tigress supports \textit{--MergeSplitBasicBlocks	=[true and false]} arguments. 
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Split}
+Split transformation breaks a function into less conspicuous pieces that are their own functions. The option utilized for this transformation is an attempt at the number of times the splitting needs to be performed. This option is specified in Tigress with \textit{--SplitCount=[1 and 5]}.
+
