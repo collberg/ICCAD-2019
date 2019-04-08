@@ -20,15 +20,14 @@ tigress --Seed=42 --Transform=InitOpaque --Functions=main \
 
 Figure~\ref{fig:tigresscall} shows a  call to Tigress to transform a C program {\tt input.c} into {\tt output.c}. This particular invocation first applies the {\tt Virtualize} transformation to the function named {\tt foo} using {\em direct} dispatch, and then adds 20 opaque predicates to the virtualized {\tt foo}. This is a very typical use of an obfuscator, applying multiple transformations to the same function, in order to protect against different types of attack. Note that a {\em seed} can be given to Tigress, which randomizes all internal decisions and allows multiple, differently obfuscated, programs to be generated from the same input program. This is used to generate a diverse set of programs, making it more difficult for an adversary to create generalized attack scripts that work across many obfuscated programs. 
 
-\CC{AR and JP: are these numbers still correct?}
-\JP{Dear sir, these are the exact numbers matching with our variants but not the same as before in aakarshs paper}
-
-In our experiments, we do not combine transformations, but only apply one at a time to each of the benchmarks. For each transformation we run all possible  combinations of the values of all options shown in  Table~\ref{tab:tigress}. This results in 16 variant options for \emph{Virtualize}, 128 variant options for \emph{Merge}, 35 variant options for \emph{Split}, 75 variant options for \emph{Add Opaque}, 128 variant options for \emph{Flatten}, 1 variant option for \emph{Encode Arithmetic} and 3 variant options for \emph{Encode Literal}. 
+In our experiments, we do not combine transformations, but only apply one at a time to each of the benchmarks. For each transformation we run all possible combinations of the values of all options shown in Table~\ref{tab:tigress}. This results in 16 variants for \emph{Virtualize}, 128 variants for \emph{Merge}, 35 variants for \emph{Split}, 75 variants for \emph{AddOpaque}, 128 variants for \emph{Flatten}, 1 variant for \emph{EncodeArithmetic} and 3 variants for \emph{EncodeLiteral}. 
 
 We apply each transformation variant to all the functions in each benchmark. In practice, this is unrealistic; in most scenarios only security-sensitive functions are obfuscated to avoid too much overhead. For the MiBench benchmarks, however, it is unclear which part of the code should be considered ``security-sensitive,'' and we therefore transform the entire program.
 
-\CC{AR and JP: fix this with the correct command and compiler, including compiler version.}
-After the obfuscated programs have been generated they are compiled with optimization using the {\tt gcc} compiiler: {\tt gcc -O i.c ....}.
+
+After transformation, the resulting program is compiled using \texttt{gcc -O2 -lm -Wall -o obfuscated.exe obfuscated\_input.c}, and the resulting program is stripped.
+
+\CC{Jayant: What version of gcc?.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Old stuff

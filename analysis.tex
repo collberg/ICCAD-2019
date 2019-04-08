@@ -4,9 +4,11 @@
 \input{analysis_data.tex}
 %\input{analysis_performance.tex}
 
-Table~\ref{tab:results} shows the results of our experiments. The 1st column shows the MiBench benchmark, the 2nd column shows the transformation applied. The 3rd column shows the energy used for the options in 4th column; these are the options to the transformation that gave the {\em lowest} energy increase. Similarly, columns 5 and 6 show the options that had the {\em highest} energy impact.
+Table~\ref{tab:results} shows the results of our experiments. The 1st column shows the MiBench benchmark, the 2nd column shows the transformation applied. The 3rd column shows the energy used for the transformations options in the 4th column; these are the options to the transformation that gave the {\em lowest} energy increase. Similarly, columns 5 and 6 show the options that had the {\em highest} energy impact.
 
-In terms of highest overall energy impact, virtualize comes first followed by flatten, merge, addopaque, split, encodearithmetic and encodeliteral.
+The results in Table~\ref{tab:results} must be viewed with an understanding that obfuscation tools like Tigress are {\em not} deterministic. To Every invocation 
+
+In terms of highest overall energy impact, virtualize comes first followed by flatten, merge, AddOpaque, Split, EncodeArithmetic and EncodeLiteral.
 
 Virtualize transformation leads to highest impact on energy usage of a application causing as high as 83.26,47.83 and 2239.39 times increase in energy usage of obfuscated code of CRC32,FFT and SHA applications respectively as compared to unobfuscated codes.
 
@@ -14,7 +16,7 @@ The main reason for high energy impact of virtualize is due to high diversity in
 
 Addopaque is also used as a precursor to other transformations. It causes 5 to 10 times increase in energy usage of applications. As more number of opaque predicates are added, the energy usage keeps increasing.
 
-Flatten with dispatch option as call predominantly causes highest energy usage among other variants of flatten. The code sizes of variants with dispatch as call are also generally the highest.
+Flatten with dispatch option as call predominantly causes highest energy usage among other variants of flatten. The code sizes of variants with dispatch option as call are also the highest.
 
 Although merge transformation is done after applying flatten to the code, merge incurs lesser upper-bound of energy of usage in most cases. This implies that more number of transformations applied in a sequence does not cause higher energy usage than less or single transformation.
 
@@ -24,7 +26,7 @@ Encode literal and encode arithmatic transformations cause minimal impact on ene
 
 
 As observed from the Table~\ref{tab:results}, certain transformation do not negatively impact the energy usage but instead lead to lesser energy usage in few cases than that of unobfuscated code. For eg., FFT Flatten consumes lesser energy than unobfuscated FFT code. Similarly for SHA Split, Qsort Flatten and Qsort Split, the energy usage is lesser than unobfuscated respective applications.
-Depending on the application, the min and max energy usages of transformation variants differ a lot. There is no particular pattern in it which requires deeper analysis into security criticality of the application functions  and features of the applications.
+Depending on the application, the min and max energy usages of transformation variants differ a lot. There is no particular  common pattern common among our benchmark applications which requires deeper analysis into security criticality of the application functions and features.
 
 
 \CC{All: Here is where we draw our results!! Everybody please contribute!}
@@ -34,13 +36,13 @@ Depending on the application, the min and max energy usages of transformation va
 % Old stuff
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \endinput
-The immediate impact of the obfuscation transformation seems highest for virtualize in terms of energy usage due to higher runtimes and higher power drawn during execution.
+The immediate impact of the obfuscation transformation seems highest for virtualize in terms of energy usage due to higher execution times and higher power drawn during execution.
 
-It reaches as far as 1.02 times to 83.26 times of increase in average energy usage to that of unobfuscated code for CRC32. 
-It reaches as far as 0.70 times to 47.83 times of increase in average energy usage to that of unobfuscated code for FFT.
-It reaches as far as 0.74 times to 2239.39 times of increase in average energy usage to that of unobfuscated code for SHA.
-It reaches as far as 0.64 times to 2.48 times of increase in average energy usage to that of unobfuscated code for Patricia.
-It reaches as far as 0.68 times to 17.12 times of increase in average energy usage to that of unobfuscated code for Qsort.
+It reaches as far as 1.02 to 83.26 times of increase in average energy usage to that of unobfuscated code for CRC32. 
+It reaches as far as 0.70 to 47.83 times of increase in average energy usage to that of unobfuscated code for FFT.
+It reaches as far as 0.74 to 2239.39 times of increase in average energy usage to that of unobfuscated code for SHA.
+It reaches as far as 0.64 to 2.48 times of increase in average energy usage to that of unobfuscated code for Patricia.
+It reaches as far as 0.68 to 17.12 times of increase in average energy usage to that of unobfuscated code for Qsort.
 
 
 

@@ -1,14 +1,11 @@
 \subsection{Benchmarks}
-\CC{Jayant: describe the benchmarks here. If we didn't use all the Mibench benchmarks, explain why. If you had to modify the, explain how and why. For example, Tigress requires a merge step, this is important since it can have performance implications (a merged program may optimize better than one with multiple modules.}
-\CC{Aakarsh: help out with this since you did the merging etc.}
-\CC{Below is the text that Aakarsh wrote, you can use this as a starting point.}
-\JP{Made changes}
+We utilize the MiBench embedded benchmark suite~\cite{guthaus2001mibench} as our base programs for obfuscation. We choose MiBench for two reasons: a) it is a popular benchmark suite in the embedded domain and b) it is written in C and our obfuscator, Tigress, transforms C code. MiBench provides a range of benchmarks divided into Automative, Network, Office, Security, and Telecom applications. We choose 5 benchmark programs from these applications for our experiments: \textit{CRC32} performs a 32-bit Cyclic Redundancy Check on a file, \textit{FFT} performs Fast Fourier Transform and its inverse on an array of data, \textit{SHA} computes a 160-bit message digest on a given input, \textit{qsort} sorts a large array of strings into ascending order using the quicksort algorithm, and \textit{Patricia} computes over {\em tries} which are used to represent routing tables in network applications.
+We were able to apply all 7 Tigress transformations to all functions of the applications except for \textit{Patricia} and \textit{qsort} where the \textit{Virtualize} transform failed or failed to complete
+%.  where single function only could be obfuscated as Tigress is in experimental stage for ARMV8 processor architecture of our IoT device. 
 
-We utilize the widely popular MiBench embedded benchmark suite ~\cite{guthaus2001mibench} as our base programs for obfuscation. Since, MiBench is written in C, it conforms with the requirements of our obfuscator, Tigress, that works only on C code. It is to be noted that since we aim at obfuscating firmware or system code, C is the most common language utilized in the realm of embedded systems. The MiBench provides a range of benchmarks divided into Automative, Network, Office, Security and Telecom applications. We choose to utilize 5 benchmark programs from these applications for our obfuscation experiments viz., i)\textit{CRC32} -performs a 32-bit Cyclic Redundancy Check on a file, ii)\textit{FFT} - performs Fast Fourier Transform and it's inverse on an array of data, iii)\textit{SHA} - produces a 160-bit message digest secure hash from a given input. iv)\textit{qsort} -qsort test sorts a large array of strings into ascending order using the well known quick sort algorithm., and v)\textit{Patricia}- patricia tries are used to represent routing tables in network applications. The input data for this benchmark is a list of IP traffic from a highly active web server for a 2 hour period where The IP numbers are disguised.
-We were able to apply all 7 transformations to all functions of the applications except \textit{Virtualize} for \textit{patricia} and \textit{qsort} where single function only could be obfuscated as Tigress is in experimental stage for ARMV8 processor architecture of our IoT device. 
+The programs in the above benchmarks consist of multiple input C files. Tigress, however, takes  exactly one C file as input. Therefore, prior to running our experiments each benchmark application was merged into one file, using a merger supplied with Tigress.
 
-The program in the above benchmarks consists of multiple input C files and Tigress requires these input files to be merged into exactly one C file. 
-This is done through merging using CIL merger.
-Merging is performed by utilizing \textit{cilly}, the CIL driver \footnote{https://people.eecs.berkeley.edu/~necula/cil/merger.html}. The generalized command for merging is as follows://
-\textit{cilly --merge [flags] input\_file\_list [-o target\_output\_filename]
---mergedout=merged\_c \_filename.c}
+%requires these input files to be merged into exactly one C file. This is done through merging using CIL merger.
+%Merging is performed by utilizing \textit{cilly}, the CIL driver \footnote{https://people.eecs.berkeley.edu/~necula/cil/merger.html}. The generalized command for merging is as follows://
+%\textit{cilly --merge [flags] input\_file\_list [-o target\_output\_filename]
+%--mergedout=merged\_c \_filename.c}
