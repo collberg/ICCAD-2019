@@ -1,41 +1,54 @@
 \section{Power Analysis}
 \label{sec:analysis}
-
 \input{analysis_data.tex}
-%\input{analysis_performance.tex}
 
-Table~\ref{tab:results} shows the results of our experiments. The 1st column shows the MiBench benchmark, the 2nd column shows the transformation applied. The 3rd column shows the energy used for the transformations options in the 4th column; these are the options to the transformation that gave the {\em lowest} energy increase. Similarly, columns 5 and 6 show the options that had the {\em highest} energy impact.
+% Explain table
+Table~\ref{tab:results} shows the results of our experiments. The 1st column shows the MiBench benchmark. The second column is a row number which will be used in the discussions below. The 3rd column shows the Tigress transformation applied to the benchmark in column 1. The 4th and 5th columns, respectively, show the energy used for the set of transformation options in the 5th column. These are the options to the transformation that gave the {\em lowest} energy increase. Similarly, column 6 shows the energy for the options in column 7 that had the {\em highest} energy impact.
 
-The results in Table~\ref{tab:results} must be viewed with an understanding that obfuscation tools like Tigress are {\em not} deterministic. To Every invocation 
+% Randomness caveats
+The results in Table~\ref{tab:results} must be viewed with an understanding that obfuscation tools like Tigress are {\em not} deterministic. Since one of the requirements of such tools is that they produce copious amounts of diversity, whenever possible their internal decisions are selected randomly. Consider, as an example, row 15. Here the AddOpaque transformations was applied to the FFT benchmark. It appears that inserting 15 opaque predicates results in a {\em lower} energy use than inserting 10! The reason is that for the AddOpaque transformation, the {\em code location} of every insertion is random, and the {\em type} of opaque predicate inserted is also selected randomly. As a result, 15 opaque predicates may have been inserted in such a way that they are executed less frequently than the 10 predicates, and hence results in a lower energy use.
 
-In terms of highest overall energy impact, virtualize comes first followed by flatten, merge, AddOpaque, Split, EncodeArithmetic and EncodeLiteral.
+With that in mind, we can make some conservative observations from the data in Table~\ref{tab:results}.
 
-Virtualize transformation leads to highest impact on energy usage of a application causing as high as 83.26,47.83 and 2239.39 times increase in energy usage of obfuscated code of CRC32,FFT and SHA applications respectively as compared to unobfuscated codes.
+% Virtualization
+The most obvious observation is that the Virtualize transformation results in the highest impact on energy usage. For the  SHA, FFT, and CRC32 applications, virtualization leads to an increase of 83, 47, and 2239 times of energy usage, respectively, over unobfuscated code (see rows 7, 14, and 27). Specifically, it appears that a virtual instruction set that uses registers results in higher energy use than one that uses a stack. This makes sense: instructions with register operands result in a larger bytecode than instructions which take their arguments implicitly from the stack, and this could result in worse cache utilization. Furthermore, for every executed instruction with register operands, registers have to be decoded from the bytecode, which will result in more (native) instructions being executed.
 
-The main reason for high energy impact of virtualize is due to high diversity induced in the code after turning the function into an interpreter and highest security against reverse engineering applied to the code. Also other transformations are applied such as split,flatten,merge and addopaque before applying virtualize which increases the complexity. 
+% Flatten
+The Flatten transformation displays the second highest energy increase. Flattening, in fact, can be seen as a ``virtualization-light'' transformation: like virtualization it breaks the code up into smaller pieces and then uses a {\em dispatch} routine to select and jump to the next piece. There are differences, however: virtualization breaks up the code in much smaller pieces than flattening (individual instructions rather than basic blocks), and virtualization's dispatch routine is more complex than that of flattening. The largest energy increase is for SHA, which results in a 165 times increase (row 4) over the unobfuscated case. Specifically, Flatten with a {\em call} dispatch method predominantly causes high energy increase. 
 
-Addopaque is also used as a precursor to other transformations. It causes 5 to 10 times increase in energy usage of applications. As more number of opaque predicates are added, the energy usage keeps increasing.
+% Merge
+\ToReviewer{To the reviewers: We have discovered a potential problem with how the Merge and Flatten transformations were obfuscated, involving how opaque predicates are initialized. We believe this may explain how, for rows 4/5, 11/12, and 24/25, Merge with the Flatten option set to {\tt true}, has lower energy consumption than the Flatten transformation itself. We will fix this and re-run the experiments for the final paper.}
 
-Flatten with dispatch option as call predominantly causes highest energy usage among other variants of flatten. The code sizes of variants with dispatch option as call are also the highest.
-
-Although merge transformation is done after applying flatten to the code, merge incurs lesser upper-bound of energy of usage in most cases. This implies that more number of transformations applied in a sequence does not cause higher energy usage than less or single transformation.
-
-Split transformation upper bounds are generally lower to merge transformation as it leads to increase in count of functions while merge decreases count of functions.
-
-Encode literal and encode arithmatic transformations cause minimal impact on energy which in some cases is lower than unobfuscated code energy usage. This is due to function argument manipulation which is not as complex as other transformations.
-
-
-As observed from the Table~\ref{tab:results}, certain transformation do not negatively impact the energy usage but instead lead to lesser energy usage in few cases than that of unobfuscated code. For eg., FFT Flatten consumes lesser energy than unobfuscated FFT code. Similarly for SHA Split, Qsort Flatten and Qsort Split, the energy usage is lesser than unobfuscated respective applications.
-Depending on the application, the min and max energy usages of transformation variants differ a lot. There is no particular  common pattern common among our benchmark applications which requires deeper analysis into security criticality of the application functions and features.
-
-
-\CC{All: Here is where we draw our results!! Everybody please contribute!}
-
+% Avoid certain options
+Maybe the most interesting observation from Table~\ref{tab:results} is that careful selection of obfuscation options can result in vastly lowered energy use. Selecting stack operands instead of registers for Virtualize, for example, and avoiding the {\em call} dispatch for Flatten appears to be advantageous. This presupposes, of course, that such choices will not have an effect on the resilience to reverse engineering attacks. The techniques for de-obfuscation of  Tigress-obfuscated code presented by Salwan et al.~\cite{salwan2018symbolic}, for example, show that many of the options have no impact on the {\em precision} (i.e. the correctness of the de-obfuscated code) of this particular analysis, although they may have a significant effect on the resources (time and memory) required for running the de-obfuscation scripts.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Old stuff
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \endinput
+
+
+
+%In terms of highest overall energy impact, virtualize comes first followed by flatten, merge, AddOpaque, Split, EncodeArithmetic and EncodeLiteral.
+
+
+%Although merge transformation is done after applying flatten to the code, merge incurs lesser upper-bound of energy usage in most cases. This implies that more number of transformations applied in a sequence does not cause higher energy usage than less or single transformation.
+
+%In terms of highest overall energy impact, virtualize comes first followed by flatten, merge, AddOpaque, Split, EncodeArithmetic and EncodeLiteral.
+
+% Split
+\CC{Christian, fix this.}
+Split transformation max energy option values are generally lower than merge transformation as it leads to increase in count of functions while merge decreases count of functions. C compilers can inline a lot of functions and we have optimized the obfuscated codes before execution hence the behaviour of the split and merge transformation cannot be generalized and depends on other factors such as memory usage, jump instructions, function calls,  code stack etc.
+
+
+% EncodeLiteral EncodeArithmatic
+\CC{Christian, fix this.}
+EncodeLiteral and EncodeArithmatic transformations cause minimal impact on energy which in some cases is lower than unobfuscated code energy usage. This is due to function argument encoding which is not as complex as compared to other transformations. Also certain benchmark applications may not have the integer available in the functions to encode.
+
+
+%As observed from the Table~\ref{tab:results}, certain transformation do not negatively impact the energy usage but instead lead to lesser energy usage in few cases than that of unobfuscated code. For eg., FFT Flatten consumes lesser energy than unobfuscated FFT code. Similarly for SHA Split, Qsort Flatten and Qsort Split, the energy usage is lesser than unobfuscated respective applications.
+Depending on the application, the min and max energy usages of transformation variants differ a lot. There is no particular  common pattern common among our benchmark applications which will require deeper analysis into security criticality of the application functions and features.
+
 The immediate impact of the obfuscation transformation seems highest for virtualize in terms of energy usage due to higher execution times and higher power drawn during execution.
 
 It reaches as far as 1.02 to 83.26 times of increase in average energy usage to that of unobfuscated code for CRC32. 

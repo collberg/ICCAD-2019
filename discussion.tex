@@ -1,12 +1,35 @@
 
 \section{Discussion}
 \label{sec:discussion}
+Previous work on evaluating the energy impact from code obfuscation has made some simplifying assumptions: Sahin et al.~\cite{6976079} consider a few commercial obfuscation tools that only provide trivial transformations, Raj et al.~\cite{raj2017modelling} obfuscate by hand which prevents them from examining a large corpus of benchmarks, and Dukovi\'{c} and Varga~\cite{dhukovic2015load} target three commercial obfuscators that also only support trivial transformations such as {\em instruction substitution}. The real world is much messier than this. Industry standard software protection tools (such as those sold by IRDETO and Arxan\footnote{\url{https://irdeto.com} and \url{https://www.arxan.com}.}) support large numbers of transformations, each with multiple options, and with the ability to apply multiple layers of transformations to prevent a variety of reverse engineering attacks. 
+The design of Tigress is similar. 
 
-\CC{Sriram updates this when the paper is nearing completion.}
-\AR{This discussion has no association with the context of the paper. Sriram - you may have to update this based on our context/results/analysis}
+This means that any type of performance evaluation becomes difficult: for a ``real'' obfuscation tool there is no single ``obfuscation'' to evaluate, but rather an infinite space of possible sequences of transformations, each of which can be individually tweaked. Furthermore, the impact of a particular transformation on a particular application depends not only on the transformation, but on the structure of the application: applying the Flatten transformation to a straight-line program will have no impact, and neither will applying EncodeArithmetic to a program that has no integer arithmetic operations.
+
+The problem is further exacerbated by the fact that the {\em real} question we want to have answered is not ``which sequence of obfuscating transformations will have the smallest performance impact,'' but rather ``which sequence of transformations will result in the smallest runtime, code size, and energy use, while maximizing resistance to reverse engineering attacks.'' {\em This}, of course, requires us to be able to measure the resilience to attack of individual and combined transformations which, in itself, is a problem that has yet to receive a satisfactory solution~\cite{banescu2017characterizing}.
+
+Never-the-less, in this paper, we have made a first step towards a methodology for obfuscation performance evaluation. 
+
+\subsection{Future Work}
+There is much future work to consider.
+
+First of all, we believe it to be essential that a specialized benchmark suite be constructed for software protection research. The reason is that, for real world scenarios, an entire application is seldom obfuscated. Rather, the security-sensitive parts are obfuscated heavily (as heavily as possible given the performance constraints), whereas the remainder of the code is either left un-obfuscated, or receives a thin layer of obfuscation to blur the lines between security-sensitive and regular code. Current benchmarks, such as MiBench, are not written with this in mind. Thus, in the work presented here, we attempted to obfuscate the {\em entire} benchmark application, since MiBench has no notion of what code, if any, is security-sensitive. 
+
+In the future, we would like to construct a benchmark suite that consists of applications that are both security-sensitive and performance-critical. The code of such applications should furthermore be annotated with desired performance/security tradeoffs so that obfuscators can select the appropriate transformation for various parts of the code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Old stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\endinput
+
+\emph{\textbf{Function-level Obfuscation:}}
+
+ Applications can be obfuscated either at the entire source code or individual function level. While this work considered the energy profiling and analysis of applications when entire source code is obfuscated, we plan to investigate  function-level obfuscation as part of future work. Since obfuscating each of the individual functions can incur significant performance and energy overhead, it is imperative that functions can be ranked depending on the criticality and $k$-critical functions can be obfuscated where $k$ lies between $1$ and $n$ and $n$ denotes the number of functions in the program.  
+ 
+
 \emph{\textbf{Application-aware Obfuscation:}}
 
-Our initial analysis revealed that obfuscation incurred a significant increase in energy consumption and execution time. Thus a need for efficient allocation of resources so as to minimize the power consumed due to obfuscation becomes necessary. This is further exacerbated when systems need to meet a given power budget while balancing the performance and power consumption of the devices. Thus, we claim the need for application-aware obfuscation which develops heuristics for obfuscation considering the needs of applications while meeting a power budget. We plan to investigate these ideas as part of future work.  
+Our initial analysis revealed that obfuscation incurred a significant increase in energy consumption and execution time. Thus a need for efficient allocation of resources so as to minimize the power consumed due to obfuscation becomes necessary. This is further exacerbated when systems need to meet a given power budget while balancing the performance and power consumption of the devices. Thus, we claim the need for application-aware obfuscation which develops heuristics for obfuscation considering the needs of applications while meeting a power budget.   
 
 \emph{\textbf{Energy Optimal Phase Ordering:}}
 
@@ -14,6 +37,6 @@ Obfuscation Executive \cite{heffner} determines the order and number of obfuscat
 
 \emph{\textbf{Security Approximation:}}
 
-Estimating security of obfuscation is of increasing importance given that the transformations may be vulnerable to multitude of attacks. Thus, there exists a trade-off between protection provided by a transformation and resources expended by adversaries to thwart security. However, analyzing the trade-offs is challenging due to a multitude of transformations coupled with a lack of efficient methods for approximating security of obfuscation techniques. Wu \textit{et al.} \cite{wu2010framework} proposed an approach for security approximation using regression models. However their approach does not consider the numerous transformations and their characteristics present in Tigress. We plan to investiate these ideas as part of future work.  
+Estimating security of obfuscation is of increasing importance given that the transformations may be vulnerable to multitude of attacks. Thus, there exists a trade-off between protection provided by a transformation and resources expended by adversaries to thwart security. However, analyzing the trade-offs is challenging due to a multitude of transformations coupled with a lack of efficient methods for approximating security of obfuscation techniques. Wu \textit{et al.} \cite{wu2010framework} proposed an approach for security approximation using regression models. However their approach does not consider the numerous transformations and their characteristics present in Tigress. 
 
 

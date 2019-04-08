@@ -17,6 +17,7 @@
 %
 % These commands are for a PROCEEDINGS abstract or paper.
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
 \newcommand{\INLINECOMMENTBOX}[3]{\colorbox{#1}{#2: #3}}
 \newcommand{\CCI}[1]{\INLINECOMMENTBOX{yellow}{CC}{#1}}
 \newcommand{\ARI}[1]{\INLINECOMMENTBOX{blue!30}{AR}{#1}}
@@ -29,6 +30,8 @@
 \newcommand{\JP}[1]{\COMMENTBOX{green!50}{JP}{#1}}
 \renewcommand{\SS}[1]{\COMMENTBOX{red!30}{SS}{#1}}
 
+\newcommand{\ToReviewer}[1]{\begin{center}\colorbox{yellow}{\parbox{7cm}{#1}}\end{center}}
+
 \newcommand{\tigress}{{\em Tigress}\xspace}
 %\renewcommand{\tigress}{{\em Obfuscator}\xspace}
 
@@ -37,8 +40,8 @@
 \newcommand{\sourceurl}{\url{https://github.com/collberg/energyIoT}\xspace}
 \renewcommand{\sourceurl}{\url{https://github.com/anonymized/energyIoT}\xspace}
 
-\copyrightyear{2018}
-\acmYear{2018}
+\copyrightyear{2019}
+\acmYear{2019}
 \setcopyright{acmlicensed}
 \acmConference[ICCAD '19]{ICCAD '19: International Conference On Computer Aided Design}{Nov 4--7, 2019}{Westminster, CO}
 \acmBooktitle{ICCAD '19: International Conference On Computer Aided Design, Nov 4--7, 2019, Westminster, CO}
@@ -50,7 +53,7 @@
 % Submission ID. 
 % Use this when submitting an article to a sponsored event. You'll receive a unique submission ID from the organizers
 % of the event, and this ID should be used as the parameter to this command.
-%\acmSubmissionID{123-A56-BU3}
+%\acmSubmissionID{390X-G3C9D6J5D3}
 
 %
 % The majority of ACM publications use numbered citations and references. If you are preparing content for an event
@@ -64,7 +67,7 @@
 
 \begin{document}
 \input{abstract.tex}
-\keywords{Obfuscation, tigress, energy, RPi3, virtualize,}
+\keywords{Obfuscation, tigress, IoT, power, energy, RPi, virtualize, MiBench, Keysight SMU}
 
 \maketitle
 
