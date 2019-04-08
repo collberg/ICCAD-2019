@@ -193,9 +193,9 @@ Benchmark &
       & \nextRow
       & Merge 
       & 0.16 
-      & \raggedright Merge=goto, SplitBlocks=true, RandomizeBlocks=true, ObfuscateNext=false, OpaqueStructs=list, ConditionalKinds=branch 
+      & \raggedright Flatten=true,ObfuscateSelect=true,OpaqueStructs=list Dispatch=goto,RandomizeBlocks=false, SplitBlocks=false,ConditionalKinds=branch 
       & 0.47 
-      & Dispatch=switch, SplitBlocks=true, RandomizeBlocks=false, ObfuscateNext=false, OpaqueStructs=array, ConditionalKinds=compute \\ \cline{2-7} 
+      & Flatten=true,ObfuscateSelect=true,Opaque Structs=list,   Dispatch=indirect,   RandomizeBlocks=true,SplitBlocks=true,ConditionalKinds=branch \\ \cline{2-7} 
  
       %------------------------------------------------------------------------------
       & \nextRow
