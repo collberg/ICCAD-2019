@@ -1,0 +1,32 @@
+
+
+\begin{table}[htbp]
+  \centering
+  \caption{Add caption}
+    \begin{tabular}{|l|r|r|r|r|r|r|}
+    \toprule
+    Benchmark & \multicolumn{1}{l|}{Min Energy(j)} & \multicolumn{1}{l|}{Max Energy(j)} & \multicolumn{1}{l|}{Min Runtime(j)} & \multicolumn{1}{l|}{Max Runtime(j)} & \multicolumn{1}{l|}{Min Code Size(bytes)} & \multicolumn{1}{l|}{Max Code Size(bytes)} \\
+    \midrule
+    Unobfuscated CRC32 & 1.0675 & 1.0675 & 4.7849 & 4.7849 & 8749  & 8749 \\
+    \midrule
+    CRC32 & 1.2774 & 12.3113 & 4.6761 & 20.0232 & 71955 & 78372 \\
+    \midrule
+    Unobfuscated SHA & 0.0568 & 0.0568 & 0.2916 & 0.2916 & 7528  & 7528 \\
+    \midrule
+    SHA   & 0.0774 & 9.3833 & 0.3593 & 13.2149 & 76089 & 104697 \\
+    \midrule
+    Unobfuscated FFT & 0.2984 & 0.2984 & 0.1701 & 0.1701 & 10114 & 10114 \\
+    \midrule
+    FFT   & 0.7011 & 1.5133 & 1.7987 & 3.4925 & 75150 & 99305 \\
+    \midrule
+    Unobfuscated patricia & 0.2830 & 0.2830 & 1.3431 & 1.3431 & 13209 & 13209 \\
+    \midrule
+    patricia & 0.0926 & 0.1307 & 0.7205 & 0.9965 & 85755 & 129796 \\
+    \midrule
+    Unobfuscated Qsort & 0.1618 & 0.1618 & 0.8316 & 0.8316 & 1425  & 1425 \\
+    \midrule
+    Qsort & 0.5088 & 0.2501 & 0.8604 & 2.2355 & 5122  & 7168 \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:flatten}%
+\end{table}%
