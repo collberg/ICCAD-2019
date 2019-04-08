@@ -1,17 +1,11 @@
-%%%% Proceedings format for most of ACM conferences (with the exceptions listed below) and all ICPS volumes.
+
 \documentclass[sigconf]{acmart}
-%%%% As of March 2017, [siggraph] is no longer used. Please use sigconf (above) for SIGGRAPH conferences.
+\usepackage{xspace}
+\usepackage{listings}
+%\usepackage{multirow}
 
-%%%% Proceedings format for SIGPLAN conferences 
-% \documentclass[sigplan, anonymous, review]{acmart}
+%\newcolumntype{L}{>{\centering\arraybackslash}m{3cm}}
 
-%%%% Proceedings format for SIGCHI conferences
-% \documentclass[sigchi, review]{acmart}
-
-%%%% To use the SIGCHI extended abstract template, please visit
-% https://www.overleaf.com/read/zzzfqvkmrfzn
-
-%
 % defining the \BibTeX command - from Oren Patashnik's original BibTeX documentation.
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
     
@@ -21,6 +15,12 @@
 % the commands and values with those provided to you when you complete the rights form.
 %
 % These commands are for a PROCEEDINGS abstract or paper.
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\INLINECOMMENTBOX}[3]{\colorbox{#1}{#2: #3}}
+\newcommand{\CCI}[1]{\INLINECOMMENTBOX{yellow}{CC}{#1}}
+\newcommand{\ARI}[1]{\INLINECOMMENTBOX{blue!30}{AR}{#1}}
+\newcommand{\JPI}[1]{\INLINECOMMENTBOX{green!50}{JP}{#1}}
+\newcommand{\SSI}[1]{\INLINECOMMENTBOX{red!30}{SS}{#1}}
 
 \newcommand{\COMMENTBOX}[3]{\begin{center}\colorbox{#1}{\parbox{7cm}{#2: #3}}\end{center}}
 \newcommand{\CC}[1]{\COMMENTBOX{yellow}{CC}{#1}}
@@ -28,24 +28,24 @@
 \newcommand{\JP}[1]{\COMMENTBOX{green!50}{JP}{#1}}
 \renewcommand{\SS}[1]{\COMMENTBOX{red!30}{SS}{#1}}
 
+\newcommand{\tigress}{{\em Tigress}\xspace}
+%\renewcommand{\tigress}{{\em Obfuscator}\xspace}
+
+\newcommand{\tigressurl}{\url{http://tigress.cs.arizona.edu}\xspace}
+%\renewcommand{\tigressurl}{\url{http://obfuscator.anonymized.edu}\xspace}
+\newcommand{\sourceurl}{\url{https://github.com/collberg/energyIoT}\xspace}
+\renewcommand{\sourceurl}{\url{https://github.com/anonymized/energyIoT}\xspace}
 
 \copyrightyear{2018}
 \acmYear{2018}
 \setcopyright{acmlicensed}
-\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural Gaze Detection}{June 03--05, 2018}{Woodstock, NY}
-\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection, June 03--05, 2018, Woodstock, NY}
+\acmConference[Westminster '19]{Westminster '19: International Conference On Computer Aided Design}{Nov 4--7, 2019}{Westminster, CO}
+\acmBooktitle{Westminster '19: International Conference On Computer Aided Design, Nov 4--7, 2019, Westminster, CO}
 \acmPrice{15.00}
 \acmDOI{10.1145/1122445.1122456}
 \acmISBN{978-1-4503-9999-9/18/06}
 
-%
-% These commands are for a JOURNAL article.
-%\setcopyright{acmcopyright}
-%\acmJournal{TOG}
-%\acmYear{2018}\acmVolume{37}\acmNumber{4}\acmArticle{111}\acmMonth{8}
-%\acmDOI{10.1145/1122445.1122456}
 
-%
 % Submission ID. 
 % Use this when submitting an article to a sponsored event. You'll receive a unique submission ID from the organizers
 % of the event, and this ID should be used as the parameter to this command.
@@ -59,11 +59,17 @@
 
 %
 % end of the preamble, start of the body of the document source.
-\begin{document}
+\title{Energy Profiling and Analysis of Code Obfuscation for the Internet of Things}
 
+\begin{document}
+\input{abstract.tex}
+\keywords{obfuscation, tigress, energy, RPi3 , virtualize}
+
+\maketitle
+
+\CC{Jayant: Fix the name of the conference.}
 %
 % The "title" command has an optional parameter, allowing the author to define a "short title" to be used in page headers.
-\title{Energy Profiling and Analysis of Code Obfuscation for the Internet of Things}
 
 %
 % The "author" command and its associated commands are used to define the authors and their affiliations.
@@ -78,8 +84,6 @@
 %\renewcommand{\shortauthors}{Trovato and Tobin, et al.}
 
 
-\input{abstract.tex}
-\keywords{obfuscation, tigress, energy, text tagging}
 
 %
 % A "teaser" image appears between the author and affiliation information and the body 
@@ -91,7 +95,6 @@
 %  \label{fig:teaser}
 %\end{teaserfigure}
 
-\maketitle
 
 \input{introduction.tex}
 \input{related.tex}

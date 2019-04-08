@@ -1,17 +1,8 @@
-\section{Background and Related Work}\label{sec:rw}
-\CC{Sriram writes a brief intro here}
+\section{Background and Related Work}\label{sec:related}
 
-\subsection{Code Obfuscation}
-\CC{Christian writes this}
+In this section, we review existing literature on code obfuscation, energy impact of security for IoTs in general and for code obfuscation, in particular. 
 
-\subsection{Security Issues of IoT Devices}
-\CC{Sriram writes this}
+\input{related_obfuscation.tex}
+\input{related_IoT_security.tex}
+\input{related_obfuscation_performance.tex}
 
-\subsection{Performance of IoT Devices}
-Ensuring security and privacy in resource constraint devices (or IoTs) constraints is challenging~\cite{7823334, 6970594, 5675772}. Key constraints to be considered in such devices are power, execution time and size. A significant amount of work has been done in this direction regarding the impact from security protocols and cryptographic algorithms, mainly~\cite{potlapally2003analyzing, 5983970, 1347774, 5940923}. These works analyze the impact of energy, power and performance in the context of mobile device where battery life is the main constraint. The same concerns prevail while utilizing obfuscation techniques in such constraint devices, particularly IoTs, that handle sensitive data and run proprietary code requiring the need for code/data obfuscation to harden reverse engineering.
-\CC{Aakarsh needs to update this. You need to say things like "In [], Bob investigates ..., and finds that ...}
-
-\subsection{Obfuscation Performance Evaluation}
-However, to our knowledge there is no work that analyzes the impact of a taxonomy of obfuscation techniques on power and performance in constraint devices. The closest related works are~\cite{6976079, Ceccato, dhukovic2015load}, where the impact of code obfuscation are studied based on code metrics, load-profiles and energy. The energy usage of different code obfuscation tools and configurations are empirically studied for mobile application~\cite{6976079}. However, i) the obfuscation configurations utilized are not well established and their work is of the impact of commercial obfuscation tools rather than a taxonomy of obfuscation techniques, and ii) their platform is a smartphone which have considerably lesser constraints compared to a typical IoT device.
-
-\CC{Aakarsh, same thing here. You need to briefly explain what the authors did, and what they found.}

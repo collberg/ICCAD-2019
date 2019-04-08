@@ -1,52 +1,104 @@
 \subsection{Obfuscating Transformations}
-\CC{Aakarsh and Jayant: Here you need to describe the transformations that we ran over the benchmarks. Below is the text Aakarsh wrote. I think this needs to be completely rewritten, but I'm not sure exactly how... Describing each Tigress option in detail --- is it really necessary?}
 
-The obfuscation techniques along with the corresponding options as mentioned in ~\ref{sec:po} are utilized to setup the experimental software. We automate the process of running all possible obfuscation combinations by writing Bash scripts and corresponding Makefiles for creating the obfuscated code through Tigress. The procedure for conducting the above procedure is detailed below.
+\input{tigress_options.tex}
 
-Based on ~\ref{sec:po}, we have 96 options for \emph{Virtualization}, 13 options for \emph{Merge}, 2 options for \emph{Split}, 4 options for \emph{Add Opaque}, 6 options for \emph{Flatten} and 1 option each for \emph{Encode Arithmetic} and \emph{Encode Literal}. The process of generating these obfuscated codes is automated by writing Makefiles for each obfuscation technique. A key argument for Tigress is the specification of the function to be obfuscated. We select the function to be chosen for obfuscation based on the profiling result of the benchmark program. 
-Obfuscation is a popular means of preventing reverse engineering of software. In this section we briefly discuss the taxanomy of obfuscation techniques that are utilized in this paper, mainly based on ~\cite{collberg1997taxonomy}. The obfuscation techniques are performed by utilizing the auto obfuscator, Tigress that provides a wide array of transformation options for each technique as well.
+In our experiments we use the Tigress C source-to-source obfuscator. Tigress supports a wide range of transformations, and each transformation has multiple options that controls how the obfuscated code is generated. Table~\ref{tab:tigress} shows the Tigress transformations, options, and range of option values that we used in our experiments.
 
-\subsubsection{Virtualization}
-Virtualization involves transforming a function into an interpretor, whose bytecode language is specialized for the particular function specified. Tigress offers a variety of options for generating different virtualized transformations of the code. The following are the options utilized for virtualzation:
-\begin{enumerate}
-\item \textit{Dispatch Methods:} This specifies the interpreter's dipatch method. The arguments specified in Tigress \textit{--VirtualizeDispatch=[binary, call, direct, ifnest, indirect, interpolation, linear and switch]}.
-\item \textit{Superoperators:} This specifes the desired number of superoperators. The arguments specified in Tigress \textit{--VirtualizeSuperOpsRatio=[2.0 and 0.0]}.
-\item \textit{Max Merge Length:} This specifies the longest sequence of instructions that should be merged into one. The argument specification in Tigress is \textit{--VirtualizeMaxMergeLength=[5 and 0]}.
-\item \textit{Performance:} The performance of virtualization can be tweaked based on the following arguments in Tigress \textit{--VirtualizePerformance=[AddressSizeShort,CacheTop and PointerStack]}.
-\item \textit{Operands:} This specifies the type of operands that is allowed by the Instruction Set Architecture generated. Options for Tigress include \textit{--VirtualizeOperands=[stack, registers and stack,registers]}.
-\end{enumerate}
+\begin{figure*}
+\begin{center}
+\begin{minipage}{12cm}
+\begin{lstlisting}[basicstyle=\footnotesize]
+tigress --Seed=42 --Transform=InitOpaque --Functions=main \
+   --Transform=Virtualize --Functions=foo --VirtualizeDispatch=direct \
+   --Transform=AddOpaque --Functions=foo --AddOpaqueCount=20 --out=output.c input.c
+\end{lstlisting}
+\end{minipage}
+\end{center}
+\caption{Example Tigress invocation.}
+\label{fig:tigresscall}
+\end{figure*}
 
-\subsubsection{AddOpaque}
-Control flow splitting by adding opaque predicated involves breaking up code blocks by inserting opaque predicated in-between. In Tigress, this transformation requires the issue of an initialization opaque expression that sets up the data structures with the precise invariants. The following are the options utilized for AddOpaque:
+Figure~\ref{fig:tigresscall} shows a  call to Tigress to transform a C program {\tt input.c} into {\tt output.c}. This particular invocation first applies the {\tt Virtualize} transformation to the function named {\tt foo} using {\em direct} dispatch, and then adds 20 opaque predicates to the virtualized {\tt foo}. This is a very typical use of an obfuscator, applying multiple transformations to the same function, in order to protect against different types of attack. Note that a {\em seed} can be given to Tigress, which randomizes all internal decisions and allows multiple, differently obfuscated, programs to be generated from the same input program. This is used to generate a diverse set of programs, making it more difficult for an adversary to create generalized attack scripts that work across many obfuscated programs. 
+
+\CC{AR and JP: are these numbers still correct?}
+\JP{Dear sir, these are the exact numbers matching with our variants but not the same as before in aakarshs paper}
+
+In our experiments, we do not combine transformations, but only apply one at a time to each of the benchmarks. For each transformation we run all possible  combinations of the values of all options shown in  Table~\ref{tab:tigress}. This results in 16 variant options for \emph{Virtualize}, 128 variant options for \emph{Merge}, 35 variant options for \emph{Split}, 75 variant options for \emph{Add Opaque}, 128 variant options for \emph{Flatten}, 1 variant option for \emph{Encode Arithmetic} and 3 variant options for \emph{Encode Literal}. 
+
+We apply each transformation variant to all the functions in each benchmark. In practice, this is unrealistic; in most scenarios only security-sensitive functions are obfuscated to avoid too much overhead. For the MiBench benchmarks, however, it is unclear which part of the code should be considered ``security-sensitive,'' and we therefore transform the entire program.
+
+\CC{AR and JP: fix this with the correct command and compiler, including compiler version.}
+After the obfuscated programs have been generated they are compiled with optimization using the {\tt gcc} compiiler: {\tt gcc -O i.c ....}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Old stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\endinput
+
+\AR{Dr.Collberg: Can you add a short description of these options? Just stating it wouldn't make send to a reviewer. Else, how about having a table for this? Transformation | Options | Description}
+\subsubsection{Virtualize}
+Virtualize involves transforming a function into an interpretor, whose bytecode language is specialized for the particular function specified. 
+
+
+
 \begin{itemize}
-\item \textit{Opaque Kinds:} This specifes the types of opaque predicated to be added, that include either buggy statements or random bytes. Tigress specification is \textit{--AddOpaqueKinds=[bug and junk]}
-\item \textit{Opaque Count:} This specifes the number of opaque predicated to be added. Tigress specification is \textit{--AddOpaqueCount=[10 and 1]}
+\item \textit{--VirtualizeDispatch=[direct,indirect and switch]}.
+\item \textit{--VirtualizeSuperOpsRatio=[2 and 0]}.
+\item \textit{--VirtualizeMaxMergeLength=[5 and 0]}.
+\item \textit{--VirtualizePerformance=[AddressSizeShort, CacheTop and PointerStack]}.
+\item \textit{--VirtualizeOperands=[stack and registers]}.
 \end{itemize}
 
-\subsubsection{Encode Arithmatic}
-Encode arithmatic replaces integer airthmatic expression with more complex expression. Tigress currently supports one option for this transformation. 
+
+\subsubsection{AddOpaque}
+Split up control flow by adding opaque branches.
+
+\begin{itemize}
+\item \textit{--AddOpaqueKinds=[bug and junk]}
+\item \textit{--AddOpaqueCount=[1,5,10,15 and 20]}
+\end{itemize}
+
+
+\subsubsection{Encode Arithmetic}
+Encode arithmetic replaces integer arithmetic expression with more complex expression. Tigress currently supports one option for this transformation.
+
+\begin{itemize}
+\item \textit{--EncodeArithmetic}.
+\end{itemize}
+
 
 \subsubsection{Encode Literal}
 This technique obfuscates string and integer literals with less obvious expression. A single option of encoding integer and string is utilized.
 
-\subsubsection{Flatten}
-This transformation removes structured flow of the code via control flow flattening technique. The following are the options utilized:
 \begin{itemize}
-\item \textit{Dispatch Method:} This specifes the dipatch method of the flattened blocks of code. The options utilized in Tigress are \textit{--FlattenDispatch=[switch, goto and indirect]}.
-\item \textit{Split Basic Blocks:} This splits basic code blocks that involve sequence of assignment and call statements without any intervening branches into respective individual blocks. Tigress options include \textit{--FlattenSplitBasicBlocks=[true and false]}.
+\item \textit{--EncodeLiterals=[Integer and String]}.
 \end{itemize}
+
+\subsubsection{Flatten}
+Remove control flow from a function.
+
+\begin{itemize}
+\item \textit{--FlattenDispatch=[switch, goto and indirect]}.
+\item \textit{--FlattenSplitBasicBlocks=[true and false]}.
+\end{itemize}
+
+
 
 \subsubsection{Merge}
-This transformation technique merges multiple functions together into one. The following options are supported in Tigress:
+This transformation technique merges multiple functions together into one. The following options are supported in Tigress: 
+
 \begin{itemize}
-\item \textit{Merge Flatten:} Merge supports flattening before the merge. The options provided are \textit{--MergeFlatten=[true and false]}. Setting merge flatten to true expands further Tigress options as follows: 
-\begin{itemize}
-\item \textit{Dispatch Methods:} This sets the dispatch methods for flattened merging and Tigress options are \textit{--MergeFlattenDispatch=[goto,indirect and switch]}.
-\item \textit{Split Basic Blocks:} This splits the basic blocks in the functions before merging with options inlcuding \textit{--MergeSplitBasicBlocks=[true and false]}.
-\item \textit{Randomize Basic Blocks:} The sequence of basic blocks can be randomized with this option and Tigress supports \textit{--MergeSplitBasicBlocks	=[true and false]} arguments. 
-\end{itemize}
+\item \textit{--MergeFlatten=[true and false]}.
+\item \textit{--MergeFlattenDispatch=[goto,indirect and switch]}.
+\item Split \textit{--MergeSplitBasicBlocks=[true and false]}.
+\item Randomize \textit{--MergeSplitBasicBlocks	=[true and false]}.
 \end{itemize}
 
+
 \subsubsection{Split}
-Split transformation breaks a function into less conspicuous pieces that are their own functions. The option utilized for this transformation is an attempt at the number of times the splitting needs to be performed. This option is specified in Tigress with \textit{--SplitCount=[1 and 5]}.
+Split transformation breaks a function into less conspicuous pieces that are their own functions. The option utilized for this transformation is an attempt at the number of times the splitting needs to be performed. 
+
+\begin{itemize}
+\item \textit{--SplitCount=[1,5,10 and 15]}.
+\end{itemize}
 
