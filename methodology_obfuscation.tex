@@ -25,8 +25,8 @@ In our experiments, we do not combine transformations, but only apply one at a t
 We apply each transformation variant to all the functions in each benchmark. In practice, this is unrealistic; in most scenarios only security-sensitive functions are obfuscated to avoid too much overhead. For the MiBench benchmarks, however, it is unclear which part of the code should be considered ``security-sensitive,'' and we therefore transform the entire program.
 
 
-After transformation, the resulting program is compiled with optimization of level 2 using gcc(version : 4.6) -> \emph{gcc -O2 -lm -Wall -o obfuscated obfuscated\_input.c}, and the resulting program is stripped using strip command ->\emph{strip --strip-all obfuscated obfuscated \_input.c}
-\CC{Jayant: What version of gcc?.}
+After transformation, the resulting program is compiled with gcc version 4.6 using the command: \texttt{gcc -O2 -lm -Wall -o obfuscated.exe obfuscated\_input.c}. The resulting program is stripped of symbols.
+
 When functions are not inlined, there is a performance hit to make a function call.
 Function calls (depending on the platform) typically involve a few 10s of instructions, and that's including saving / restoring the stack. Some function calls consist a jump and return instruction.
 But there are other things that might impact function call performance and energy as a result. The function being called may not be loaded into the processor's cache, causing a cache miss and forcing the memory controller to grab the function from main RAM. Hence function calls may or may not impact performance and energy.

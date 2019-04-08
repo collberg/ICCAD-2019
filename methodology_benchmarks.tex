@@ -1,7 +1,7 @@
 \subsection{Benchmarks}
 We utilize the MiBench embedded benchmark suite~\cite{guthaus2001mibench} as our base programs for obfuscation. We choose MiBench for two reasons: a) it is a popular benchmark suite in the embedded domain and b) it is written in C and our obfuscator, Tigress, transforms C code. MiBench provides a range of benchmarks divided into Automative, Network, Office, Security, and Telecom applications. We choose 5 benchmark programs from these applications for our experiments: \textit{CRC32} performs a 32-bit Cyclic Redundancy Check on a file, \textit{FFT} performs Fast Fourier Transform and its inverse on an array of data, \textit{SHA} computes a 160-bit message digest on a given input, \textit{qsort} sorts a large array of strings into ascending order using the quicksort algorithm, and \textit{Patricia} computes over {\em tries} which are used to represent routing tables in network applications.
 We were able to apply all 7 Tigress transformations to all functions of the applications except for \textit{Patricia} and \textit{qsort} where the \textit{Virtualize} transform failed or failed to complete.
-\JJ{explaination for virtualize failure required}
+%\JJ{explaination for virtualize failure required}
 %.  where single function only could be obfuscated as Tigress is in experimental stage for ARMV8 processor architecture of our IoT device. 
 
 The programs in the above benchmarks consist of multiple input C files. Tigress, however, takes  exactly one C file as input. Therefore, prior to running our experiments each benchmark application was merged into one file, using a merger supplied with Tigress.
