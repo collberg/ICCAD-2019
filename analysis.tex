@@ -38,12 +38,12 @@ Maybe the most interesting observation from Table~\ref{tab:results} is that care
 
 % Split
 \CC{Christian, fix this.}
-Split transformation max energy option values are generally lower than merge transformation as it leads to increase in count of functions while merge decreases count of functions. C compilers can inline a lot of functions and we have optimized the obfuscated codes before execution hence the behaviour of the split and merge transformation cannot be generalized and depends on other factors such as memory usage, jump instructions, function calls,  code stack etc.
+Split transformation max energy option values are generally lower than merge transformation as it leads to increase in count of functions while merge decreases count of functions. C compilers can inline a lot of functions and we have optimized the obfuscated codes before execution hence the behavior of the split and merge transformation cannot be generalized and depends on other factors such as memory usage, jump instructions, function calls,  code stack etc.
 
 
 % EncodeLiteral EncodeArithmatic
 \CC{Christian, fix this.}
-EncodeLiteral and EncodeArithmatic transformations cause minimal impact on energy which in some cases is lower than unobfuscated code energy usage. This is due to function argument encoding which is not as complex as compared to other transformations. Also certain benchmark applications may not have the integer available in the functions to encode.
+EncodeLiteral and EncodeArithmetic transformations cause minimal impact on energy which in some cases is lower than unobfuscated code energy usage. This is due to function argument encoding which is not as complex as compared to other transformations. Also certain benchmark applications may not have the integer available in the functions to encode.
 
 
 %As observed from the Table~\ref{tab:results}, certain transformation do not negatively impact the energy usage but instead lead to lesser energy usage in few cases than that of unobfuscated code. For eg., FFT Flatten consumes lesser energy than unobfuscated FFT code. Similarly for SHA Split, Qsort Flatten and Qsort Split, the energy usage is lesser than unobfuscated respective applications.
